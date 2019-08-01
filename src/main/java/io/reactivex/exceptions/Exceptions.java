@@ -19,6 +19,7 @@ import io.reactivex.internal.util.ExceptionHelper;
 /**
  * Utility class to help propagate checked exceptions and rethrow exceptions
  * designated as fatal.
+ * 异常处理工具类
  */
 public final class Exceptions {
 
@@ -58,7 +59,7 @@ public final class Exceptions {
      * notify subscribers of errors encountered in that code by calling their {@code onError} methods, but only
      * if the errors are not so catastrophic that such a call would be futile, in which case you simply want to
      * rethrow the error.
-     *
+     * 只抛出严重的异常
      * @param t
      *         the {@code Throwable} to test and perhaps throw
      * @see <a href="https://github.com/ReactiveX/RxJava/issues/748#issuecomment-32471495">RxJava: StackOverflowError is swallowed (Issue #748)</a>

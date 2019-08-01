@@ -16,6 +16,7 @@ package io.reactivex.exceptions;
 /**
  * Explicitly named exception to indicate a Reactive-Streams
  * protocol violation.
+ * 违反协议异常
  * <p>History: 2.0.6 - experimental; 2.1 - beta
  * @since 2.2
  */

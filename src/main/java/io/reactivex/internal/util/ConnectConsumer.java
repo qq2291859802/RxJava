@@ -18,6 +18,7 @@ import io.reactivex.functions.Consumer;
 
 /**
  * Store the Disposable received from the connection.
+ * 存储从连接接收到的一次性数据。
  */
 public final class ConnectConsumer implements Consumer<Disposable> {
     public Disposable disposable;

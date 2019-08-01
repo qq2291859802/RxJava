@@ -19,6 +19,8 @@ import io.reactivex.annotations.NonNull;
  * operators (create, generate).
  *
  * @param <T> the value type emitted
+ *
+ *           发射器
  */
 public interface Emitter<T> {
 

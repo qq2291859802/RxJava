@@ -37,6 +37,10 @@ public final class ObservableCreate<T> extends Observable<T> {
         observer.onSubscribe(parent);
 
         try {
+            // 调用了事件源subscribe方法生产事件，同时将发射器传给事件源。
+            // 现在我们明白了，数据源生产事件的subscribe方法只有在observable.subscribe(observer)被执行
+            // 后才执行的。 换言之，事件流是在订阅后才产生的。
+            //而observable被创建出来时并不生产事件，同时也不发射事件。
             source.subscribe(parent);
         } catch (Throwable ex) {
             Exceptions.throwIfFatal(ex);
@@ -44,6 +48,11 @@ public final class ObservableCreate<T> extends Observable<T> {
         }
     }
 
+    /**
+     * CreateEmitter 实现了ObservableEmitter接口，同时ObservableEmitter接口又继承了Emitter接口。
+     * CreateEmitter 还实现了Disposable接口，这个disposable接口是用来判断是否中断事件发射的。
+     * @param <T>
+     */
     static final class CreateEmitter<T>
     extends AtomicReference<Disposable>
     implements ObservableEmitter<T>, Disposable {
@@ -56,6 +65,8 @@ public final class ObservableCreate<T> extends Observable<T> {
         CreateEmitter(Observer<? super T> observer) {
             this.observer = observer;
         }
+// 当订阅成功后，数据源ObservableOnSubscribe开始生产事件，调用Emitter的onNext，onComplete向下游发射事件，
+// Emitter包含了observer的引用，又调用了observer onNext，onComplete，这样下游observer就接收到了上游发射的数据。
 
         @Override
         public void onNext(T t) {
@@ -63,8 +74,8 @@ public final class ObservableCreate<T> extends Observable<T> {
                 onError(new NullPointerException("onNext called with null. Null values are generally not allowed in 2.x operators and sources."));
                 return;
             }
-            if (!isDisposed()) {
-                observer.onNext(t);
+            if (!isDisposed()) {// 判断事件是否需要被丢弃
+                observer.onNext(t);// 调用Emitter的onNext，它会直接调用observer的onNext
             }
         }
 
@@ -82,9 +93,9 @@ public final class ObservableCreate<T> extends Observable<T> {
             }
             if (!isDisposed()) {
                 try {
-                    observer.onError(t);
+                    observer.onError(t);// 调用Emitter的onError，它会直接调用observer的onError
                 } finally {
-                    dispose();
+                    dispose();// 当onError被触发时，执行dispose(), 后续onNext，onError， onComplete就不会继续发射事件了
                 }
                 return true;
             }
@@ -95,9 +106,9 @@ public final class ObservableCreate<T> extends Observable<T> {
         public void onComplete() {
             if (!isDisposed()) {
                 try {
-                    observer.onComplete();
+                    observer.onComplete();// 调用Emitter的onComplete，它会直接调用observer的onComplete
                 } finally {
-                    dispose();
+                    dispose();// 当onComplete被触发时，也会执行dispose(), 后续onNext，onError， onComplete同样不会继续发射事件了
                 }
             }
         }

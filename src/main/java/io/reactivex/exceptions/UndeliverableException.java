@@ -15,6 +15,7 @@ package io.reactivex.exceptions;
 
 /**
  * Wrapper for Throwable errors that are sent to `RxJavaPlugins.onError`.
+ * 不可传递的异常
  * <p>History: 2.0.6 - experimental; 2.1 - beta
  * @since 2.2
  */

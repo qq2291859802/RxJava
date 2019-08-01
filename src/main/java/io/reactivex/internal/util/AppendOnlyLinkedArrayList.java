@@ -41,6 +41,7 @@ public class AppendOnlyLinkedArrayList<T> {
 
     /**
      * Append a non-null value to the list.
+     * 添加一个非null的元素
      * <p>Don't add null to the list!
      * @param value the value to append
      */
@@ -78,6 +79,7 @@ public class AppendOnlyLinkedArrayList<T> {
     /**
      * Loops over all elements of the array until a null element is encountered or
      * the given predicate returns true.
+     * 循环遍历数组的所有元素，直到遇到null或给定测试返回true为止。
      * @param consumer the consumer of values that returns true if the forEach should terminate
      */
     @SuppressWarnings("unchecked")

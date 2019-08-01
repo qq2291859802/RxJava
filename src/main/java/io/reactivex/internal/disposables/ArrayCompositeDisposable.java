@@ -34,6 +34,7 @@ public final class ArrayCompositeDisposable extends AtomicReferenceArray<Disposa
 
     /**
      * Sets the resource at the specified index and disposes the old resource.
+     * 在指定索引位置设置资源并销毁旧的资源
      * @param index the index of the resource to set
      * @param resource the new resource
      * @return true if the resource has ben set, false if the composite has been disposed
@@ -45,6 +46,7 @@ public final class ArrayCompositeDisposable extends AtomicReferenceArray<Disposa
                 resource.dispose();
                 return false;
             }
+            // 数组中的旧资源会销毁
             if (compareAndSet(index, o, resource)) {
                 if (o != null) {
                     o.dispose();
@@ -56,6 +58,7 @@ public final class ArrayCompositeDisposable extends AtomicReferenceArray<Disposa
 
     /**
      * Replaces the resource at the specified index and returns the old resource.
+     * 替换指定索引处的资源并返回旧资源
      * @param index the index of the resource to replace
      * @param resource the new resource
      * @return the old resource, can be null
@@ -73,6 +76,9 @@ public final class ArrayCompositeDisposable extends AtomicReferenceArray<Disposa
         }
     }
 
+    /**
+     * 循环销毁所有的元素
+     */
     @Override
     public void dispose() {
         if (get(0) != DisposableHelper.DISPOSED) {

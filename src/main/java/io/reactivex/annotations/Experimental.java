@@ -16,6 +16,7 @@ package io.reactivex.annotations;
 /**
  * Indicates the feature is in experimental state: its existence, signature or behavior
  * might change without warning from one release to the next.
+ * 表示特征处于实验状态:其存在、特征或行为，可能会在没有警告的情况下从一个版本更改到下一个版本。
  */
 public @interface Experimental {
 

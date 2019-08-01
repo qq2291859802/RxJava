@@ -15,6 +15,7 @@ package io.reactivex;
 
 /**
  * Represents the options for applying backpressure to a source sequence.
+ * 背压策略
  */
 public enum BackpressureStrategy {
     /**

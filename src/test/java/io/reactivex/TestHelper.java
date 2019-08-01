@@ -47,6 +47,7 @@ import io.reactivex.subscribers.TestSubscriber;
 
 /**
  * Common methods for helping with tests from 1.x mostly.
+ * 帮助测试的类
  */
 public enum TestHelper {
     ;
@@ -125,6 +126,7 @@ public enum TestHelper {
     /**
      * Validates that the given class, when forcefully instantiated throws
      * an IllegalArgumentException("No instances!") exception.
+     * 判断能否实例化
      * @param clazz the class to test, not null
      */
     public static void checkUtilityClass(Class<?> clazz) {
@@ -353,7 +355,7 @@ public enum TestHelper {
     }
     /**
      * Synchronizes the execution of two runnables (as much as possible)
-     * to test race conditions.
+     * to test race conditions.（测试并发）
      * <p>The method blocks until both have run to completion.
      * @param r1 the first runnable
      * @param r2 the second runnable
@@ -366,6 +368,7 @@ public enum TestHelper {
     /**
      * Synchronizes the execution of two runnables (as much as possible)
      * to test race conditions.
+     * 同时尽可能多的运行两个任务，测试竞态条件
      * <p>The method blocks until both have run to completion.
      * @param r1 the first runnable
      * @param r2 the second runnable

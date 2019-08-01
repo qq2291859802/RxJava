@@ -32,6 +32,7 @@ public final class ExceptionHelper {
      * If the provided Throwable is an Error this method
      * throws it, otherwise returns a RuntimeException wrapping the error
      * if that error is a checked exception.
+     * 封装异常对象成运行时异常
      * @param error the error to wrap or throw
      * @return the (wrapped) error
      */
@@ -51,10 +52,18 @@ public final class ExceptionHelper {
      */
     public static final Throwable TERMINATED = new Termination();
 
+    /**
+     * 原子性添加异常对象
+     * @param field
+     * @param exception
+     * @param <T>
+     * @return true表示添加成功
+     */
     public static <T> boolean addThrowable(AtomicReference<Throwable> field, Throwable exception) {
         for (;;) {
             Throwable current = field.get();
 
+            // 是不是终止异常对象
             if (current == TERMINATED) {
                 return false;
             }
@@ -72,6 +81,12 @@ public final class ExceptionHelper {
         }
     }
 
+    /**
+     * 设置终止异常对象
+     * @param field
+     * @param <T>
+     * @return
+     */
     public static <T> Throwable terminate(AtomicReference<Throwable> field) {
         Throwable current = field.get();
         if (current != TERMINATED) {
@@ -82,12 +97,14 @@ public final class ExceptionHelper {
 
     /**
      * Returns a flattened list of Throwables from tree-like CompositeException chain.
+     * 从类树的CompositeException链中返回一个扁平的异常列表。
      * @param t the starting throwable
      * @return the list of Throwables flattened in a depth-first manner
      */
     public static List<Throwable> flatten(Throwable t) {
         List<Throwable> list = new ArrayList<Throwable>();
         ArrayDeque<Throwable> deque = new ArrayDeque<Throwable>();
+        // 向队列中插入一个元素，并返回true
         deque.offer(t);
 
         while (!deque.isEmpty()) {
@@ -121,6 +138,9 @@ public final class ExceptionHelper {
         throw (E)e;
     }
 
+    /**
+     * 终止异常类
+     */
     static final class Termination extends Throwable {
 
         private static final long serialVersionUID = -4649703670690200604L;

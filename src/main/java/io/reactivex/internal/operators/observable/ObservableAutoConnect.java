@@ -23,7 +23,7 @@ import io.reactivex.observables.ConnectableObservable;
 /**
  * Wraps a ConnectableObservable and calls its connect() method once
  * the specified number of Observers have subscribed.
- *
+ * 包装ConnectableObservable，在指定的观察者数量订阅后调用它的connect()方法。
  * @param <T> the value type of the chain
  */
 public final class ObservableAutoConnect<T> extends Observable<T> {

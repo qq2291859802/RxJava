@@ -23,6 +23,7 @@ import io.reactivex.*;
 
 /**
  * Verifies that instance methods of the base reactive classes are all declared final.
+ * 检验最基础的方法是不是都是final类型（非静态方法）
  */
 public class PublicFinalMethods {
 

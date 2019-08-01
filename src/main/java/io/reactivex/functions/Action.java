@@ -15,6 +15,7 @@ package io.reactivex.functions;
 
 /**
  * A functional interface similar to Runnable but allows throwing a checked exception.
+ * 类似于Runnable支持抛出编译时异常
  */
 public interface Action {
     /**

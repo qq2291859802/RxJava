@@ -28,6 +28,7 @@ final class SubscriptionDisposable extends ReferenceDisposable<Subscription> {
 
     @Override
     protected void onDisposed(@NonNull Subscription value) {
+        // 停止发送数据
         value.cancel();
     }
 }

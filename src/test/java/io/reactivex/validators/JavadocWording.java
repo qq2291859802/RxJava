@@ -46,6 +46,9 @@ public class JavadocWording {
 
         for (RxMethod m : list) {
             int jdx;
+            /**
+             * 校验javadoc是不是存在不合理的注释
+             */
             if (m.javadoc != null) {
                 jdx = 0;
                 for (;;) {
@@ -905,6 +908,12 @@ public class JavadocWording {
         }
     }
 
+    /**
+     * 是不是存在没有闭合的<dd>
+     * @param e
+     * @param m
+     * @param baseTypeName
+     */
     static void missingClosingDD(StringBuilder e, RxMethod m, String baseTypeName) {
         int jdx = 0;
         for (;;) {

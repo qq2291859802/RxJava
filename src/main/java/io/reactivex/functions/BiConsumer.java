@@ -15,6 +15,7 @@ package io.reactivex.functions;
 
 /**
  * A functional interface (callback) that accepts two values (of possibly different types).
+ * 输入两个值
  * @param <T1> the first value type
  * @param <T2> the second value type
  */

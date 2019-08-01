@@ -17,6 +17,9 @@ import java.util.*;
 
 import org.junit.Test;
 
+/**
+ * 转义<code></code>中的<和>
+ */
 public class JavadocFindUnescapedAngleBrackets {
 
     @Test

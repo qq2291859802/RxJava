@@ -987,8 +987,10 @@ public abstract class Completable implements CompletableSource {
     public static Completable wrap(CompletableSource source) {
         ObjectHelper.requireNonNull(source, "source is null");
         if (source instanceof Completable) {
+            // Completable -> Completable
             return RxJavaPlugins.onAssembly((Completable)source);
         }
+        // 装饰者模式：将不安全的源转换为CompletableSource
         return RxJavaPlugins.onAssembly(new CompletableFromUnsafeSource(source));
     }
 

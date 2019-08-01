@@ -25,7 +25,7 @@ import io.reactivex.internal.util.*;
  * offers O(1) add and removal complexity.
  */
 public final class CompositeDisposable implements Disposable, DisposableContainer {
-
+    // 内部维护多个废弃对象
     OpenHashSet<Disposable> resources;
 
     volatile boolean disposed;
@@ -62,6 +62,9 @@ public final class CompositeDisposable implements Disposable, DisposableContaine
         }
     }
 
+    /**
+     * 废弃对象
+     */
     @Override
     public void dispose() {
         if (disposed) {
@@ -160,7 +163,7 @@ public final class CompositeDisposable implements Disposable, DisposableContaine
      * Removes (but does not dispose) the given disposable if it is part of this
      * container.
      * @param d the disposable to remove, not null
-     * @return true if the operation was successful
+     * @return true if the operation was successful true表示操作成功
      */
     @Override
     public boolean delete(@NonNull Disposable d) {
@@ -174,6 +177,7 @@ public final class CompositeDisposable implements Disposable, DisposableContaine
             }
 
             OpenHashSet<Disposable> set = resources;
+            // 移除丢弃对象
             if (set == null || !set.remove(d)) {
                 return false;
             }
@@ -197,13 +201,14 @@ public final class CompositeDisposable implements Disposable, DisposableContaine
             set = resources;
             resources = null;
         }
-
+        // 丢弃所有对象
         dispose(set);
     }
 
     /**
      * Returns the number of currently held Disposables.
      * @return the number of currently held Disposables
+     * 如果已经丢弃了，就返回0。否则返回当前异常列表的大小
      */
     public int size() {
         if (disposed) {
@@ -234,6 +239,7 @@ public final class CompositeDisposable implements Disposable, DisposableContaine
                 try {
                     ((Disposable) o).dispose();
                 } catch (Throwable ex) {
+                    // 抛出严重的异常
                     Exceptions.throwIfFatal(ex);
                     if (errors == null) {
                         errors = new ArrayList<Throwable>();
@@ -246,6 +252,7 @@ public final class CompositeDisposable implements Disposable, DisposableContaine
             if (errors.size() == 1) {
                 throw ExceptionHelper.wrapOrThrow(errors.get(0));
             }
+            // 复合异常
             throw new CompositeException(errors);
         }
     }

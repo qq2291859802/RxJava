@@ -22,6 +22,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * A disposable container that wraps a Cancellable instance.
+ * 封装Cancellable的可销毁容器
  * <p>
  * Watch out for the AtomicReference API leak!
  */

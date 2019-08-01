@@ -25,6 +25,7 @@ import io.reactivex.internal.fuseable.QueueDisposable;
  * don't use it in tests and then signal onNext with it;
  * use Disposables.empty() instead.
  */
+// 表示无状态的空一次性容器
 public enum EmptyDisposable implements QueueDisposable<Object> {
     /**
      * Since EmptyDisposable implements QueueDisposable and is empty,
@@ -63,11 +64,20 @@ public enum EmptyDisposable implements QueueDisposable<Object> {
         observer.onError(e);
     }
 
+    /**
+     * 统一完成状态
+     * @param observer
+     */
     public static void complete(CompletableObserver observer) {
         observer.onSubscribe(INSTANCE);
         observer.onComplete();
     }
 
+    /**
+     * 统一失败状态
+     * @param e
+     * @param observer
+     */
     public static void error(Throwable e, CompletableObserver observer) {
         observer.onSubscribe(INSTANCE);
         observer.onError(e);
@@ -109,6 +119,7 @@ public enum EmptyDisposable implements QueueDisposable<Object> {
         // nothing to do
     }
 
+    // 异步
     @Override
     public int requestFusion(int mode) {
         return mode & ASYNC;

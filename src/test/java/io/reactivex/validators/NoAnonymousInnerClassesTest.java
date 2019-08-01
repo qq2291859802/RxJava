@@ -19,6 +19,9 @@ import java.util.*;
 
 import org.junit.Test;
 
+/**
+ * 不存在匿名内部类检查
+ */
 public class NoAnonymousInnerClassesTest {
 
     @Test
@@ -50,8 +53,10 @@ public class NoAnonymousInnerClassesTest {
                 if (name.endsWith(".class") && name.contains("$")
                         && !name.contains("Perf") && !name.contains("Test")
                         && !name.startsWith("Test")) {
+                    // $分割内部类
                     String[] parts = name.split("\\$");
                     for (String s : parts) {
+                        // 第一个是数字说明是匿名内部类
                         if (Character.isDigit(s.charAt(0))) {
                             String n = f.getAbsolutePath().substring(prefix.length()).replace('\\', '.').replace('/', '.');
                             if (n.startsWith(".")) {

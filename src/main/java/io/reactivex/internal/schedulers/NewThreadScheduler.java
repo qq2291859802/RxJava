@@ -23,6 +23,7 @@ import java.util.concurrent.ThreadFactory;
 
 /**
  * Schedules work on a new thread.
+ * 调度在一个新的线程中
  */
 public final class NewThreadScheduler extends Scheduler {
 
@@ -35,6 +36,7 @@ public final class NewThreadScheduler extends Scheduler {
     private static final String KEY_NEWTHREAD_PRIORITY = "rx2.newthread-priority";
 
     static {
+        // 线程优先级
         int priority = Math.max(Thread.MIN_PRIORITY, Math.min(Thread.MAX_PRIORITY,
                 Integer.getInteger(KEY_NEWTHREAD_PRIORITY, Thread.NORM_PRIORITY)));
 

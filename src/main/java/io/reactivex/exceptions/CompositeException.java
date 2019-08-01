@@ -33,11 +33,14 @@ import io.reactivex.annotations.NonNull;
  *
  * If you invoke {@link #getCause()}, it will lazily create the causal chain but will stop if it finds any
  * Throwable in the chain that it has already seen.
+ *
+ * 复合异常对象
  */
 public final class CompositeException extends RuntimeException {
 
     private static final long serialVersionUID = 3026362227162912146L;
 
+    // 所有异常
     private final List<Throwable> exceptions;
     private final String message;
     private Throwable cause;
@@ -51,6 +54,7 @@ public final class CompositeException extends RuntimeException {
      */
     public CompositeException(@NonNull Throwable... exceptions) {
         this(exceptions == null ?
+                // singletonList(T) 方法用于返回一个只包含指定对象的不可变列表
                 Collections.singletonList(new NullPointerException("exceptions was null")) : Arrays.asList(exceptions));
     }
 
@@ -62,11 +66,13 @@ public final class CompositeException extends RuntimeException {
      * @throws IllegalArgumentException if <code>errors</code> is empty.
      */
     public CompositeException(@NonNull Iterable<? extends Throwable> errors) {
+        // LinkedHashSet保持顺序并去重
         Set<Throwable> deDupedExceptions = new LinkedHashSet<Throwable>();
         List<Throwable> localExceptions = new ArrayList<Throwable>();
         if (errors != null) {
             for (Throwable ex : errors) {
                 if (ex instanceof CompositeException) {
+                    // 如果传递的也是一个复合对象
                     deDupedExceptions.addAll(((CompositeException) ex).getExceptions());
                 } else
                 if (ex != null) {
@@ -82,6 +88,7 @@ public final class CompositeException extends RuntimeException {
             throw new IllegalArgumentException("errors is empty");
         }
         localExceptions.addAll(deDupedExceptions);
+        // 不可变
         this.exceptions = Collections.unmodifiableList(localExceptions);
         this.message = exceptions.size() + " exceptions occurred. ";
     }
@@ -116,8 +123,10 @@ public final class CompositeException extends RuntimeException {
                     // already seen this outer Throwable so skip
                     continue;
                 }
+                // 添加所有的异常
                 seenCauses.add(e);
 
+                // 添加所有引发此异常的异常列表
                 List<Throwable> listOfCauses = getListOfCauses(e);
                 // check if any of them have been seen before
                 for (Throwable child : listOfCauses) {
@@ -172,6 +181,7 @@ public final class CompositeException extends RuntimeException {
     /**
      * Special handling for printing out a {@code CompositeException}.
      * Loops through all inner exceptions and prints them out.
+     * 循环遍历所有内部异常并将其打印出来。
      *
      * @param s
      *            stream to print to
@@ -202,6 +212,9 @@ public final class CompositeException extends RuntimeException {
         }
     }
 
+    /**
+     * 装饰字符字节打印流对象
+     */
     abstract static class PrintStreamOrWriter {
         /** Prints the specified string as a line on this StreamOrWriter. */
         abstract void println(Object o);
@@ -209,6 +222,7 @@ public final class CompositeException extends RuntimeException {
 
     /**
      * Same abstraction and implementation as in JDK to allow PrintStream and PrintWriter to share implementation.
+     * PrintStream装饰对象
      */
     static final class WrappedPrintStream extends PrintStreamOrWriter {
         private final PrintStream printStream;
@@ -223,6 +237,9 @@ public final class CompositeException extends RuntimeException {
         }
     }
 
+    /**
+     * PrintWriter装饰对象
+     */
     static final class WrappedPrintWriter extends PrintStreamOrWriter {
         private final PrintWriter printWriter;
 
@@ -236,6 +253,9 @@ public final class CompositeException extends RuntimeException {
         }
     }
 
+    /**
+     * 复合异常链
+     */
     static final class CompositeExceptionCausalChain extends RuntimeException {
         private static final long serialVersionUID = 3875212506787802066L;
         /* package-private */static final String MESSAGE = "Chain of Causes for CompositeException In Order Received =>";
@@ -246,6 +266,11 @@ public final class CompositeException extends RuntimeException {
         }
     }
 
+    /**
+     * 获取引发此异常的异常列表
+     * @param ex
+     * @return
+     */
     private List<Throwable> getListOfCauses(Throwable ex) {
         List<Throwable> list = new ArrayList<Throwable>();
         Throwable root = ex.getCause();
@@ -265,6 +290,7 @@ public final class CompositeException extends RuntimeException {
     }
 
     /**
+     * 异常个数
      * Returns the number of suppressed exceptions.
      * @return the number of suppressed exceptions
      */
@@ -273,6 +299,7 @@ public final class CompositeException extends RuntimeException {
     }
 
     /**
+     * 获取根本异常原因对象
      * Returns the root cause of {@code e}. If {@code e.getCause()} returns {@code null} or {@code e}, just return {@code e} itself.
      *
      * @param e the {@link Throwable} {@code e}.

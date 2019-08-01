@@ -21,6 +21,7 @@ package io.reactivex.internal.util;
 /**
  * A simple open hash set with add, remove and clear capabilities only.
  * <p>Doesn't support nor checks for {@code null}s.
+ * 简单的一个hashmap,只有增删
  *
  * @param <T> the element type
  */

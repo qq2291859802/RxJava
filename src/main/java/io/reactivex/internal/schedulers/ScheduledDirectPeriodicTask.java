@@ -21,6 +21,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 /**
  * A Callable to be submitted to an ExecutorService that runs a Runnable
  * action periodically and manages completion/cancellation.
+ * 周期性任务
  * @since 2.0.8
  */
 public final class ScheduledDirectPeriodicTask extends AbstractDirectTask implements Runnable {

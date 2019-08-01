@@ -23,10 +23,12 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Utility methods for working with Disposables atomically.
+ * 原子处理一次性物品的工具
  */
 public enum DisposableHelper implements Disposable {
     /**
      * The singleton instance representing a terminal, disposed state, don't leak it.
+     * 标识已经销毁的对象
      */
     DISPOSED
     ;
@@ -42,6 +44,7 @@ public enum DisposableHelper implements Disposable {
 
     /**
      * Atomically sets the field and disposes the old contents.
+     * 原子性地设置字段并销毁旧内容。
      * @param field the target field
      * @param d the new Disposable to set
      * @return true if successful, false if the field contains the {@link #DISPOSED} instance.
@@ -56,6 +59,7 @@ public enum DisposableHelper implements Disposable {
                 return false;
             }
             if (field.compareAndSet(current, d)) {
+                // 销毁原来的资源
                 if (current != null) {
                     current.dispose();
                 }
@@ -90,6 +94,7 @@ public enum DisposableHelper implements Disposable {
     /**
      * Atomically replaces the Disposable in the field with the given new Disposable
      * but does not dispose the old one.
+     * 原子性方式替换新的可销毁对象
      * @param field the target field to change
      * @param d the new disposable, null allowed
      * @return true if the operation succeeded, false if the target field contained
@@ -179,6 +184,7 @@ public enum DisposableHelper implements Disposable {
         // deliberately no-op
     }
 
+    // 已经销毁
     @Override
     public boolean isDisposed() {
         return true;

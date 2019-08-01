@@ -32,7 +32,7 @@ import io.reactivex.annotations.Nullable;
  */
 public abstract class GroupedObservable<K, T> extends Observable<T> {
 
-    final K key;
+    final K key; // 按照key进行分组
 
     /**
      * Constructs a GroupedObservable with the given key.

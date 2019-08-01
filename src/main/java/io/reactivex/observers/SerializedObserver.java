@@ -21,6 +21,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Serializes access to the onNext, onError and onComplete methods of another Observer.
+ * 序列化对另一个观察者的onNext、onError和onComplete方法的访问。
  *
  * <p>Note that {@link #onSubscribe(Disposable)} is not serialized in respect of the other methods so
  * make sure the {@code onSubscribe()} is called with a non-null {@code Disposable}

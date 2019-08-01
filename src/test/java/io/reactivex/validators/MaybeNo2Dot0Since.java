@@ -36,7 +36,7 @@ public class MaybeNo2Dot0Since {
      * @throws Exception on error
      */
     public static File findSource(String baseClassName) throws Exception {
-        URL u = MaybeNo2Dot0Since.class.getResource(MaybeNo2Dot0Since.class.getSimpleName() + ".class");
+        URL u = MaybeNo2Dot0Since.class.getResource(MaybeNo2Dot0Since.class.getSimpleName() + ".class"); // getResource方法是得到文件路径的函数。
 
         String path = new File(u.toURI()).toString().replace('\\', '/');
 
@@ -50,7 +50,7 @@ public class MaybeNo2Dot0Since {
 
         // find end of any potential postfix to /RxJava
         int j = path.indexOf("/", i + 6);
-
+        // 拼接java源码位置
         String p = path.substring(0, j + 1) + "src/main/java/io/reactivex/" + baseClassName + ".java";
 
         File f = new File(p);

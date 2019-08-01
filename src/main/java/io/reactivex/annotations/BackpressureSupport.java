@@ -17,6 +17,7 @@ import java.lang.annotation.*;
 
 /**
  * Indicates the backpressure support kind of the associated operator or class.
+ * 支持背压类型
  * @since 2.0
  */
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2016-present, RxJava Contributors.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See
  * the License for the specific language governing permissions and limitations under the License.
@@ -25,6 +25,7 @@ import io.reactivex.schedulers.Timed;
 
 /**
  * Utility methods to convert the BiFunction, Function3..Function9 instances to Function of Object array.
+ * Function的工具类
  */
 public final class Functions {
 
@@ -87,7 +88,7 @@ public final class Functions {
      */
     @SuppressWarnings("unchecked")
     public static <T> Function<T, T> identity() {
-        return (Function<T, T>)IDENTITY;
+        return (Function<T, T>) IDENTITY;
     }
 
     public static final Runnable EMPTY_RUNNABLE = new EmptyRunnable();
@@ -103,7 +104,7 @@ public final class Functions {
      */
     @SuppressWarnings("unchecked")
     public static <T> Consumer<T> emptyConsumer() {
-        return (Consumer<T>)EMPTY_CONSUMER;
+        return (Consumer<T>) EMPTY_CONSUMER;
     }
 
     public static final Consumer<Throwable> ERROR_CONSUMER = new ErrorConsumer();
@@ -126,17 +127,17 @@ public final class Functions {
 
     @SuppressWarnings("unchecked")
     public static <T> Predicate<T> alwaysTrue() {
-        return (Predicate<T>)ALWAYS_TRUE;
+        return (Predicate<T>) ALWAYS_TRUE;
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Predicate<T> alwaysFalse() {
-        return (Predicate<T>)ALWAYS_FALSE;
+        return (Predicate<T>) ALWAYS_FALSE;
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Callable<T> nullSupplier() {
-        return (Callable<T>)NULL_SUPPLIER;
+        return (Callable<T>) NULL_SUPPLIER;
     }
 
     /**
@@ -146,7 +147,7 @@ public final class Functions {
      */
     @SuppressWarnings("unchecked")
     public static <T> Comparator<T> naturalOrder() {
-        return (Comparator<T>)NATURAL_COMPARATOR;
+        return (Comparator<T>) NATURAL_COMPARATOR;
     }
 
     static final class FutureAction implements Action {
@@ -270,15 +271,16 @@ public final class Functions {
 
     enum HashSetCallable implements Callable<Set<Object>> {
         INSTANCE;
+
         @Override
         public Set<Object> call() throws Exception {
             return new HashSet<Object>();
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static <T> Callable<Set<T>> createHashSet() {
-        return (Callable)HashSetCallable.INSTANCE;
+        return (Callable) HashSetCallable.INSTANCE;
     }
 
     static final class NotificationOnNext<T> implements Consumer<T> {
@@ -426,7 +428,7 @@ public final class Functions {
         private final Function<? super T, ? extends K> keySelector;
 
         ToMapKeyValueSelector(Function<? super T, ? extends V> valueSelector,
-                Function<? super T, ? extends K> keySelector) {
+                              Function<? super T, ? extends K> keySelector) {
             this.valueSelector = valueSelector;
             this.keySelector = keySelector;
         }
@@ -449,7 +451,7 @@ public final class Functions {
         private final Function<? super T, ? extends K> keySelector;
 
         ToMultimapKeyValueSelector(Function<? super K, ? extends Collection<? super V>> collectionFactory,
-                Function<? super T, ? extends V> valueSelector, Function<? super T, ? extends K> keySelector) {
+                                   Function<? super T, ? extends V> valueSelector, Function<? super T, ? extends K> keySelector) {
             this.collectionFactory = collectionFactory;
             this.valueSelector = valueSelector;
             this.keySelector = keySelector;
@@ -462,7 +464,7 @@ public final class Functions {
 
             Collection<V> coll = m.get(key);
             if (coll == null) {
-                coll = (Collection<V>)collectionFactory.apply(key);
+                coll = (Collection<V>) collectionFactory.apply(key);
                 m.put(key, coll);
             }
 
@@ -484,13 +486,13 @@ public final class Functions {
         @SuppressWarnings("unchecked")
         @Override
         public int compare(Object o1, Object o2) {
-            return ((Comparable<Object>)o1).compareTo(o2);
+            return ((Comparable<Object>) o1).compareTo(o2);
         }
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Comparator<T> naturalComparator() {
-        return (Comparator<T>)NaturalComparator.INSTANCE;
+        return (Comparator<T>) NaturalComparator.INSTANCE;
     }
 
     static final class ListSorter<T> implements Function<List<T>, List<T>> {
@@ -513,6 +515,12 @@ public final class Functions {
 
     public static final Consumer<Subscription> REQUEST_MAX = new MaxRequestSubscription();
 
+    /**
+     * 封装带有两个参数的函数对象(BiFunction)
+     * @param <T1>
+     * @param <T2>
+     * @param <R>
+     */
     static final class Array2Func<T1, T2, R> implements Function<Object[], R> {
         final BiFunction<? super T1, ? super T2, ? extends R> f;
 
@@ -526,10 +534,17 @@ public final class Functions {
             if (a.length != 2) {
                 throw new IllegalArgumentException("Array of size 2 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1]);
+            return f.apply((T1) a[0], (T2) a[1]);
         }
     }
 
+    /**
+     * 封装带有三个参数的函数对象(Function3)
+     * @param <T1>
+     * @param <T2>
+     * @param <T3>
+     * @param <R>
+     */
     static final class Array3Func<T1, T2, T3, R> implements Function<Object[], R> {
         final Function3<T1, T2, T3, R> f;
 
@@ -543,10 +558,11 @@ public final class Functions {
             if (a.length != 3) {
                 throw new IllegalArgumentException("Array of size 3 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1], (T3)a[2]);
+            return f.apply((T1) a[0], (T2) a[1], (T3) a[2]);
         }
     }
 
+    // 封装带有四个参数的函数对象(Function4)
     static final class Array4Func<T1, T2, T3, T4, R> implements Function<Object[], R> {
         final Function4<T1, T2, T3, T4, R> f;
 
@@ -560,10 +576,11 @@ public final class Functions {
             if (a.length != 4) {
                 throw new IllegalArgumentException("Array of size 4 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1], (T3)a[2], (T4)a[3]);
+            return f.apply((T1) a[0], (T2) a[1], (T3) a[2], (T4) a[3]);
         }
     }
 
+    // 封装五个参数的函数对象(Function5)
     static final class Array5Func<T1, T2, T3, T4, T5, R> implements Function<Object[], R> {
         private final Function5<T1, T2, T3, T4, T5, R> f;
 
@@ -577,10 +594,11 @@ public final class Functions {
             if (a.length != 5) {
                 throw new IllegalArgumentException("Array of size 5 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1], (T3)a[2], (T4)a[3], (T5)a[4]);
+            return f.apply((T1) a[0], (T2) a[1], (T3) a[2], (T4) a[3], (T5) a[4]);
         }
     }
 
+    // 封装六个参数的函数对象(Function6)
     static final class Array6Func<T1, T2, T3, T4, T5, T6, R> implements Function<Object[], R> {
         final Function6<T1, T2, T3, T4, T5, T6, R> f;
 
@@ -594,10 +612,11 @@ public final class Functions {
             if (a.length != 6) {
                 throw new IllegalArgumentException("Array of size 6 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1], (T3)a[2], (T4)a[3], (T5)a[4], (T6)a[5]);
+            return f.apply((T1) a[0], (T2) a[1], (T3) a[2], (T4) a[3], (T5) a[4], (T6) a[5]);
         }
     }
 
+    // 封装七个参数的函数对象(Function7)
     static final class Array7Func<T1, T2, T3, T4, T5, T6, T7, R> implements Function<Object[], R> {
         final Function7<T1, T2, T3, T4, T5, T6, T7, R> f;
 
@@ -611,10 +630,11 @@ public final class Functions {
             if (a.length != 7) {
                 throw new IllegalArgumentException("Array of size 7 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1], (T3)a[2], (T4)a[3], (T5)a[4], (T6)a[5], (T7)a[6]);
+            return f.apply((T1) a[0], (T2) a[1], (T3) a[2], (T4) a[3], (T5) a[4], (T6) a[5], (T7) a[6]);
         }
     }
 
+    // 封装八个参数的函数对象(Function8)
     static final class Array8Func<T1, T2, T3, T4, T5, T6, T7, T8, R> implements Function<Object[], R> {
         final Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> f;
 
@@ -628,10 +648,11 @@ public final class Functions {
             if (a.length != 8) {
                 throw new IllegalArgumentException("Array of size 8 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1], (T3)a[2], (T4)a[3], (T5)a[4], (T6)a[5], (T7)a[6], (T8)a[7]);
+            return f.apply((T1) a[0], (T2) a[1], (T3) a[2], (T4) a[3], (T5) a[4], (T6) a[5], (T7) a[6], (T8) a[7]);
         }
     }
 
+    // 封装九个参数的函数对象(Function9)
     static final class Array9Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, R> implements Function<Object[], R> {
         final Function9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R> f;
 
@@ -645,10 +666,11 @@ public final class Functions {
             if (a.length != 9) {
                 throw new IllegalArgumentException("Array of size 9 expected but got " + a.length);
             }
-            return f.apply((T1)a[0], (T2)a[1], (T3)a[2], (T4)a[3], (T5)a[4], (T6)a[5], (T7)a[6], (T8)a[7], (T9)a[8]);
+            return f.apply((T1) a[0], (T2) a[1], (T3) a[2], (T4) a[3], (T5) a[4], (T6) a[5], (T7) a[6], (T8) a[7], (T9) a[8]);
         }
     }
 
+    // 恒等函数（输入和输出一致）
     static final class Identity implements Function<Object, Object> {
         @Override
         public Object apply(Object v) {
@@ -661,9 +683,11 @@ public final class Functions {
         }
     }
 
+    // 空Runnable（run方法没有执行语句）
     static final class EmptyRunnable implements Runnable {
         @Override
-        public void run() { }
+        public void run() {
+        }
 
         @Override
         public String toString() {
@@ -671,9 +695,11 @@ public final class Functions {
         }
     }
 
+    // 空Action（run方法没有执行语句）
     static final class EmptyAction implements Action {
         @Override
-        public void run() { }
+        public void run() {
+        }
 
         @Override
         public String toString() {
@@ -681,9 +707,11 @@ public final class Functions {
         }
     }
 
+    // 空Consumer（accept方法没有执行语句）
     static final class EmptyConsumer implements Consumer<Object> {
         @Override
-        public void accept(Object v) { }
+        public void accept(Object v) {
+        }
 
         @Override
         public String toString() {
@@ -707,7 +735,8 @@ public final class Functions {
 
     static final class EmptyLongConsumer implements LongConsumer {
         @Override
-        public void accept(long v) { }
+        public void accept(long v) {
+        }
     }
 
     static final class TruePredicate implements Predicate<Object> {
@@ -724,6 +753,7 @@ public final class Functions {
         }
     }
 
+    // 返回null的Callable
     static final class NullCallable implements Callable<Object> {
         @Override
         public Object call() {
@@ -731,17 +761,19 @@ public final class Functions {
         }
     }
 
+    // 原生对象的比较器
     static final class NaturalObjectComparator implements Comparator<Object> {
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         @Override
         public int compare(Object a, Object b) {
-            return ((Comparable)a).compareTo(b);
+            return ((Comparable) a).compareTo(b);
         }
     }
 
     static final class MaxRequestSubscription implements Consumer<Subscription> {
         @Override
         public void accept(Subscription t) throws Exception {
+            // long的最大值
             t.request(Long.MAX_VALUE);
         }
     }
@@ -751,6 +783,7 @@ public final class Functions {
         return (Consumer<T>) new BoundedConsumer(bufferSize);
     }
 
+    // 有界消费者
     public static class BoundedConsumer implements Consumer<Subscription> {
 
         final int bufferSize;

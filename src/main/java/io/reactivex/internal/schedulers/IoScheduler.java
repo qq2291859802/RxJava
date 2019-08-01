@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.*;
 
 /**
  * Scheduler that creates and caches a set of thread pools and reuses them if possible.
+ * IoScheduler看名称就知道是个IO线程调度器，根据代码注释得知，它就是一个用来创建和缓存线程的线程池。
  */
 public final class IoScheduler extends Scheduler {
     private static final String WORKER_THREAD_NAME_PREFIX = "RxCachedThreadScheduler";
@@ -46,9 +47,11 @@ public final class IoScheduler extends Scheduler {
 
     static final CachedWorkerPool NONE;
     static {
+        // 关闭线程工作任务
         SHUTDOWN_THREAD_WORKER = new ThreadWorker(new RxThreadFactory("RxCachedThreadSchedulerShutdown"));
         SHUTDOWN_THREAD_WORKER.dispose();
 
+        // 优先级
         int priority = Math.max(Thread.MIN_PRIORITY, Math.min(Thread.MAX_PRIORITY,
                 Integer.getInteger(KEY_IO_PRIORITY, Thread.NORM_PRIORITY)));
 
@@ -62,8 +65,8 @@ public final class IoScheduler extends Scheduler {
 
     static final class CachedWorkerPool implements Runnable {
         private final long keepAliveTime;
-        private final ConcurrentLinkedQueue<ThreadWorker> expiringWorkerQueue;
-        final CompositeDisposable allWorkers;
+        private final ConcurrentLinkedQueue<ThreadWorker> expiringWorkerQueue; // 过期的工作任务队列
+        final CompositeDisposable allWorkers; // 所有的工作任务
         private final ScheduledExecutorService evictorService;
         private final Future<?> evictorTask;
         private final ThreadFactory threadFactory;
@@ -77,6 +80,7 @@ public final class IoScheduler extends Scheduler {
             ScheduledExecutorService evictor = null;
             Future<?> task = null;
             if (unit != null) {
+                // 线程池
                 evictor = Executors.newScheduledThreadPool(1, EVICTOR_THREAD_FACTORY);
                 task = evictor.scheduleWithFixedDelay(this, this.keepAliveTime, this.keepAliveTime, TimeUnit.NANOSECONDS);
             }
@@ -101,23 +105,33 @@ public final class IoScheduler extends Scheduler {
             }
 
             // No cached worker found, so create a new one.
+            // 没有缓存工作任务
             ThreadWorker w = new ThreadWorker(threadFactory);
             allWorkers.add(w);
             return w;
         }
 
+        /**
+         * 设置工作任务
+         * @param threadWorker
+         */
         void release(ThreadWorker threadWorker) {
             // Refresh expire time before putting worker back in pool
+            // 重新设置线程工作任务的过期时间
             threadWorker.setExpirationTime(now() + keepAliveTime);
 
             expiringWorkerQueue.offer(threadWorker);
         }
 
+        /**
+         * 删除过期工作任务
+         */
         void evictExpiredWorkers() {
             if (!expiringWorkerQueue.isEmpty()) {
                 long currentTimestamp = now();
 
                 for (ThreadWorker threadWorker : expiringWorkerQueue) {
+                    // 判断是不是已经过期
                     if (threadWorker.getExpirationTime() <= currentTimestamp) {
                         if (expiringWorkerQueue.remove(threadWorker)) {
                             allWorkers.remove(threadWorker);
@@ -135,6 +149,9 @@ public final class IoScheduler extends Scheduler {
             return System.nanoTime();
         }
 
+        /**
+         * 关闭调度任务
+         */
         void shutdown() {
             allWorkers.dispose();
             if (evictorTask != null) {
@@ -162,6 +179,7 @@ public final class IoScheduler extends Scheduler {
 
     @Override
     public void start() {
+        // 目前只创建了线程池并没有实际的thread，所以Schedulers.io()相当于只做了线程调度的前期准备。
         CachedWorkerPool update = new CachedWorkerPool(KEEP_ALIVE_TIME, KEEP_ALIVE_UNIT, threadFactory);
         if (!pool.compareAndSet(NONE, update)) {
             update.shutdown();
@@ -197,7 +215,7 @@ public final class IoScheduler extends Scheduler {
         private final CachedWorkerPool pool;
         private final ThreadWorker threadWorker;
 
-        final AtomicBoolean once = new AtomicBoolean();
+        final AtomicBoolean once = new AtomicBoolean(); // false:表示没有销毁
 
         EventLoopWorker(CachedWorkerPool pool) {
             this.pool = pool;
@@ -205,6 +223,9 @@ public final class IoScheduler extends Scheduler {
             this.threadWorker = pool.get();
         }
 
+        /**
+         * 释放资源
+         */
         @Override
         public void dispose() {
             if (once.compareAndSet(false, true)) {
@@ -233,6 +254,7 @@ public final class IoScheduler extends Scheduler {
     }
 
     static final class ThreadWorker extends NewThreadWorker {
+        // 过期时间
         private long expirationTime;
 
         ThreadWorker(ThreadFactory threadFactory) {

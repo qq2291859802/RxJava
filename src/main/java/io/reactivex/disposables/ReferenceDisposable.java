@@ -21,6 +21,7 @@ import io.reactivex.internal.functions.ObjectHelper;
 /**
  * Base class for Disposable containers that manage some other type that
  * has to be run when the container is disposed.
+ * 销毁容器中可以销毁的类型
  *
  * @param <T> the type contained
  */
@@ -40,6 +41,7 @@ abstract class ReferenceDisposable<T> extends AtomicReference<T> implements Disp
         if (value != null) {
             value = getAndSet(null);
             if (value != null) {
+                // 具体销毁操作
                 onDisposed(value);
             }
         }

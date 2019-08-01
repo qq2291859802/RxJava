@@ -23,6 +23,7 @@ import io.reactivex.annotations.*;
 public interface CompletableSource {
 
     /**
+     * 订阅CompletableObserver
      * Subscribes the given CompletableObserver to this CompletableSource instance.
      * @param co the CompletableObserver, not null
      * @throws NullPointerException if {@code co} is null

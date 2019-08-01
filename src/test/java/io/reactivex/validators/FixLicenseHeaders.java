@@ -19,7 +19,7 @@ import java.util.*;
 import org.junit.Test;
 
 /**
- * Adds license header to java files.
+ * Adds license header to java files. （添加许可证）
  */
 public class FixLicenseHeaders {
 

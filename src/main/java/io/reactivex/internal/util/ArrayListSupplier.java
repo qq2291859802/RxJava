@@ -18,6 +18,9 @@ import java.util.concurrent.Callable;
 
 import io.reactivex.functions.Function;
 
+/**
+ * ArrayListSupplier实现了Callable和Function
+ */
 public enum ArrayListSupplier implements Callable<List<Object>>, Function<Object, List<Object>> {
     INSTANCE;
 

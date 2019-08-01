@@ -75,6 +75,7 @@ public abstract class DefaultObserver<T> implements Observer<T> {
 
     /**
      * Cancels the upstream's disposable.
+     * 取消上游的操作
      */
     protected final void cancel() {
         Disposable upstream = this.upstream;

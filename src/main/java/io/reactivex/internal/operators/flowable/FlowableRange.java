@@ -23,6 +23,7 @@ import io.reactivex.internal.util.BackpressureHelper;
 
 /**
  * Emits a range of integer values.
+ * 发送一个范围的int值
  */
 public final class FlowableRange extends Flowable<Integer> {
     final int start;
@@ -61,6 +62,9 @@ public final class FlowableRange extends Flowable<Integer> {
             return mode & SYNC;
         }
 
+        /*
+        FlowableRange就返回index,假设range是[0,10],那就依次会返回0,1,...
+         */
         @Nullable
         @Override
         public final Integer poll() {
@@ -72,6 +76,9 @@ public final class FlowableRange extends Flowable<Integer> {
             return i;
         }
 
+        /*
+          是不是没有元素
+         */
         @Override
         public final boolean isEmpty() {
             return index == end;
@@ -82,6 +89,9 @@ public final class FlowableRange extends Flowable<Integer> {
             index = end;
         }
 
+        /*
+        request 用于当收到下游的请求时的操作,如果是同步直接会返回给下游数据,否则可能只是通知下游我有数据了你自己来拿吧。
+         */
         @Override
         public final void request(long n) {
             if (SubscriptionHelper.validate(n)) {

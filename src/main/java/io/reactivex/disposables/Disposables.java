@@ -23,6 +23,7 @@ import org.reactivestreams.Subscription;
 
 /**
  * Utility class to help create disposables by wrapping
+ * 销毁对象的工具类
  * other types.
  * @since 2.0
  */
@@ -35,6 +36,7 @@ public final class Disposables {
     /**
      * Construct a Disposable by wrapping a Runnable that is
      * executed exactly once when the Disposable is disposed.
+     * 装饰Runnable对象
      * @param run the Runnable to wrap
      * @return the new Disposable instance
      */
@@ -47,6 +49,7 @@ public final class Disposables {
     /**
      * Construct a Disposable by wrapping a Action that is
      * executed exactly once when the Disposable is disposed.
+     * 装饰Action对象
      * @param run the Action to wrap
      * @return the new Disposable instance
      */
@@ -84,6 +87,7 @@ public final class Disposables {
     /**
      * Construct a Disposable by wrapping a Subscription that is
      * cancelled exactly once when the Disposable is disposed.
+     * 装饰Subscription对象
      * @param subscription the Runnable to wrap
      * @return the new Disposable instance
      */
@@ -95,6 +99,7 @@ public final class Disposables {
 
     /**
      * Returns a new, non-disposed Disposable instance.
+     * 返回未处理的实例
      * @return a new, non-disposed Disposable instance
      */
     @NonNull

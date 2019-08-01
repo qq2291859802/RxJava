@@ -81,6 +81,7 @@ public abstract class ResourceCompletableObserver implements CompletableObserver
 
     /**
      * Adds a resource to this ResourceObserver.
+     * 添加资源
      *
      * @param resource the resource to add
      *

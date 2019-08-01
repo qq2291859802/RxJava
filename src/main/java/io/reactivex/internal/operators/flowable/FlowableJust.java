@@ -21,6 +21,7 @@ import io.reactivex.internal.subscriptions.ScalarSubscription;
 
 /**
  * Represents a constant scalar value.
+ * 发送一个常量值
  * @param <T> the value type
  */
 public final class FlowableJust<T> extends Flowable<T> implements ScalarCallable<T> {

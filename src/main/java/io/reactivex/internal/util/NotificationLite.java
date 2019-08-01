@@ -22,6 +22,7 @@ import io.reactivex.internal.functions.ObjectHelper;
 
 /**
  * Lightweight notification handling utility class.
+ * 封装各种通知类
  */
 public enum NotificationLite {
     COMPLETE

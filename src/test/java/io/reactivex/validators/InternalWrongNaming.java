@@ -19,10 +19,17 @@ import java.util.*;
 import org.junit.Test;
 
 /**
- * Adds license header to java files.
+ * 检查内部命名错误
  */
 public class InternalWrongNaming {
 
+    /**
+     * 检查内部命名错误
+     * @param baseClassName
+     * @param consumerClassName
+     * @param ignore
+     * @throws Exception
+     */
     static void checkInternalOperatorNaming(String baseClassName, String consumerClassName, String... ignore) throws Exception {
         File f = MaybeNo2Dot0Since.findSource(baseClassName);
         if (f == null) {

@@ -21,6 +21,7 @@ import io.reactivex.internal.util.ExceptionHelper;
 
 /**
  * A disposable container that can hold onto multiple other disposables.
+ * 存储多个销毁对象实例的容器
  */
 public final class ListCompositeDisposable implements Disposable, DisposableContainer {
 

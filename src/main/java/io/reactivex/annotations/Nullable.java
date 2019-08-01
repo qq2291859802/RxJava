@@ -25,6 +25,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 
 /**
  * Indicates that a field/parameter/variable/return type may be null.
+ *  指示字段/参数/变量/返回类型可能为空
  */
 @Documented
 @Target(value = {FIELD, METHOD, PARAMETER, LOCAL_VARIABLE})

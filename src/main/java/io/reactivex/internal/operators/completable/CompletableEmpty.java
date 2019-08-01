@@ -17,6 +17,7 @@ import io.reactivex.*;
 import io.reactivex.internal.disposables.EmptyDisposable;
 
 public final class CompletableEmpty extends Completable {
+    // 单例
     public static final Completable INSTANCE = new CompletableEmpty();
 
     private CompletableEmpty() {

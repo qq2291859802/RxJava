@@ -30,6 +30,7 @@ import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.schedulers.Schedulers;
 /**
  * Utility class to inject handlers to certain standard RxJava operations.
+ * Rxjava工具类
  */
 public final class RxJavaPlugins {
     @Nullable
@@ -115,7 +116,7 @@ public final class RxJavaPlugins {
     @Nullable
     static volatile BooleanSupplier onBeforeBlocking;
 
-    /** Prevents changing the plugins. */
+    /** Prevents changing the plugins. 防止更新插件*/
     static volatile boolean lockdown;
 
     /**
@@ -431,6 +432,7 @@ public final class RxJavaPlugins {
 
     /**
      * Calls the associated hook function.
+     * 钩子函数
      * @param defaultScheduler the hook's input value
      * @return the value returned by the hook
      */
@@ -489,6 +491,7 @@ public final class RxJavaPlugins {
 
     /**
      * Removes all handlers and resets to default behavior.
+     * 重置默认行为
      */
     public static void reset() {
         setErrorHandler(null);
@@ -1049,6 +1052,7 @@ public final class RxJavaPlugins {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @NonNull
     public static <T> Observable<T> onAssembly(@NonNull Observable<T> source) {
+        // 钩子函数
         Function<? super Observable, ? extends Observable> f = onObservableAssembly;
         if (f != null) {
             return apply(f, source);
@@ -1074,6 +1078,7 @@ public final class RxJavaPlugins {
 
     /**
      * Calls the associated hook function.
+     * 通过一个钩子函数将Single -> Single
      * @param <T> the value type
      * @param source the hook's input value
      * @return the value returned by the hook

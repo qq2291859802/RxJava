@@ -35,6 +35,8 @@ import org.junit.Test;
  * 
  * &#64;Override
  * </code></pre>
+ *
+ * 代码风格校验}和注释之后刚好应该是一个换行符
  */
 public class NewLinesBeforeAnnotation {
 

@@ -25,6 +25,7 @@ import io.reactivex.schedulers.SchedulerRunnableIntrospection;
 
 /**
  * Base functionality for direct tasks that manage a runnable and cancellation/completion.
+ * 管理任务
  * @since 2.0.8
  */
 abstract class AbstractDirectTask
@@ -45,6 +46,9 @@ implements Disposable, SchedulerRunnableIntrospection {
         this.runnable = runnable;
     }
 
+    /**
+     * 销毁任务
+     */
     @Override
     public final void dispose() {
         Future<?> f = get();

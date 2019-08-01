@@ -17,6 +17,8 @@ package io.reactivex;
 
 /**
  * Options to deal with buffer overflow when using onBackpressureBuffer.
+ * 参考：  https://blog.csdn.net/jdsjlzx/article/details/52717636
+ * 所谓背压，即生产者的速度大于消费者的速度带来的问题
  */
 public enum BackpressureOverflowStrategy {
     /** Signal a MissingBackpressureException and terminate the sequence. */

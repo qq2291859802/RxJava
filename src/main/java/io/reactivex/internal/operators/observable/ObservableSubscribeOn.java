@@ -19,6 +19,7 @@ import io.reactivex.*;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.disposables.DisposableHelper;
 
+// 可以看到这个ObservableSubscribeOn 继承自Observable，并且扩展了一些属性，增加了scheduler
 public final class ObservableSubscribeOn<T> extends AbstractObservableWithUpstream<T, T> {
     final Scheduler scheduler;
 
@@ -31,8 +32,11 @@ public final class ObservableSubscribeOn<T> extends AbstractObservableWithUpstre
     public void subscribeActual(final Observer<? super T> observer) {
         final SubscribeOnObserver<T> parent = new SubscribeOnObserver<T>(observer);
 
+        // 没有任何线程调度，直接调用的，所以下游的onSubscribe方法没有切换线程，
+        // 下游就是观察者，所以我们明白了为什么只有onSubscribe还运行在main线程
         observer.onSubscribe(parent);
 
+        // 添加了Disposable的管理
         parent.setDisposable(scheduler.scheduleDirect(new SubscribeTask(parent)));
     }
 
@@ -84,6 +88,7 @@ public final class ObservableSubscribeOn<T> extends AbstractObservableWithUpstre
         }
     }
 
+    // 这个类很简单，就是一个Runnable，最终运行上游的subscribe方法(新线程)
     final class SubscribeTask implements Runnable {
         private final SubscribeOnObserver<T> parent;
 

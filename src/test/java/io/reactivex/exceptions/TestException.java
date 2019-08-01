@@ -16,6 +16,7 @@ package io.reactivex.exceptions;
 /**
  * Exception for testing if unchecked expections propagate as-is without confusing with
  * other type of common exceptions.
+ * 测试异常
  */
 public final class TestException extends RuntimeException {
 

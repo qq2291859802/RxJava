@@ -15,6 +15,7 @@ package io.reactivex.functions;
 
 /**
  * A functional interface (callback) that returns a boolean value.
+ * 不输入返回一个布尔值
  */
 public interface BooleanSupplier {
     /**

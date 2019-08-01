@@ -17,6 +17,7 @@ import io.reactivex.functions.BiPredicate;
 /**
  * Utility methods containing the backport of Java 7's Objects utility class.
  * <p>Named as such to avoid clash with java.util.Objects.
+ * 常见的对象操作工具类
  */
 public final class ObjectHelper {
 
@@ -53,6 +54,7 @@ public final class ObjectHelper {
 
     /**
      * Returns the hashCode of a non-null object or zero for a null object.
+     * 获取哈希值
      * @param o the object to get the hashCode for.
      * @return the hashCode
      */
@@ -62,6 +64,7 @@ public final class ObjectHelper {
 
     /**
      * Compares two integer values similar to Integer.compare.
+     * 比较两个数
      * @param v1 the first value
      * @param v2 the second value
      * @return the comparison result
@@ -95,6 +98,7 @@ public final class ObjectHelper {
     /**
      * Validate that the given value is positive or report an IllegalArgumentException with
      * the parameter name.
+     * 判断是不是正数
      * @param value the value to validate
      * @param paramName the parameter name of the value
      * @return value

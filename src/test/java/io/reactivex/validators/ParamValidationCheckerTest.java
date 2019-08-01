@@ -34,6 +34,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Check that static and instance methods validate their parameters against
  * null and invalid values properly.
+ * 检查静态方法和实例方法是否正确地针对空值和无效值验证它们的参数。
  */
 public class ParamValidationCheckerTest {
 

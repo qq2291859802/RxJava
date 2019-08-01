@@ -47,6 +47,7 @@ import io.reactivex.disposables.Disposable;
  * </ul>
  * @since 2.0
  */
+// 完整的观察者
 public interface CompletableObserver {
     /**
      * Called once by the Completable to set a Disposable on this instance which

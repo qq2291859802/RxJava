@@ -50,6 +50,12 @@ public class JavadocForAnnotations {
         }
     }
 
+    /**
+     * 读取文件转换为StringBuilder
+     * @param f
+     * @return
+     * @throws Exception
+     */
     public static StringBuilder readFile(File f) throws Exception {
         StringBuilder b = new StringBuilder();
 

@@ -29,7 +29,7 @@ implements Runnable, Callable<Object>, Disposable {
     /** Indicates that the parent tracking this task has been notified about its completion. */
     static final Object PARENT_DISPOSED = new Object();
     /** Indicates the dispose() was called from within the run/call method. */
-    static final Object SYNC_DISPOSED = new Object();
+    static final Object SYNC_DISPOSED = new Object(); // 同步销毁
     /** Indicates the dispose() was called from another thread. */
     static final Object ASYNC_DISPOSED = new Object();
 
@@ -69,6 +69,7 @@ implements Runnable, Callable<Object>, Disposable {
                 RxJavaPlugins.onError(e);
             }
         } finally {
+            // 在不需要让共享变量的修改立刻让其他线程可见的时候，以设置普通变量的方式来修改共享状态，可以减少不必要的内存屏障，从而提高程序执行的效率。
             lazySet(THREAD_INDEX, null);
             Object o = get(PARENT_INDEX);
             if (o != PARENT_DISPOSED && compareAndSet(PARENT_INDEX, o, DONE) && o != null) {
@@ -104,6 +105,9 @@ implements Runnable, Callable<Object>, Disposable {
         }
     }
 
+    /**
+     * 销毁
+     */
     @Override
     public void dispose() {
         for (;;) {

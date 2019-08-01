@@ -17,6 +17,8 @@ import io.reactivex.functions.BiFunction;
 
 /**
  * Enumerations for handling failure within a parallel operator.
+ *
+ * 在并行运算符中处理故障的枚举。
  * <p>History: 2.0.8 - experimental
  * @since 2.2
  */

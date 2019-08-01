@@ -25,6 +25,7 @@ import io.reactivex.annotations.*;
 
 /**
  * Verifies several properties.
+ * 验证注解和方法
  * <ul>
  * <li>Certain public base type methods have the {@link CheckReturnValue} present</li>
  * <li>All public base type methods have the {@link SchedulerSupport} present</li>

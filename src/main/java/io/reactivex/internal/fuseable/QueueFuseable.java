@@ -36,6 +36,7 @@ public interface QueueFuseable<T> extends SimpleQueue<T> {
      * {@link #poll()} should be prepared to catch exceptions. Note that {@link #poll()} has
      * to be called sequentially (from within a serializing drain-loop).
      */
+    // 同步标识
     int SYNC = 1;
 
     /**

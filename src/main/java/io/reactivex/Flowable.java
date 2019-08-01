@@ -57,6 +57,9 @@ import io.reactivex.subscribers.*;
  *
  * @param <T>
  *            the type of the items emitted by the Flowable
+ *
+ *
+ *  Publisher可以发出一系列的事件，而Subscriber负责和处理这些事件。
  */
 public abstract class Flowable<T> implements Publisher<T> {
     /** The default buffer size. */
@@ -3894,6 +3897,7 @@ public abstract class Flowable<T> implements Publisher<T> {
             return empty();
         } else
         if (count == 1) {
+            // 发送一个值
             return just(start);
         } else
         if ((long)start + (count - 1) > Integer.MAX_VALUE) {

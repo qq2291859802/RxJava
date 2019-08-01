@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * 包含多个方法接口，多个输入一个输出，只有输入，输入多个返回布尔结果等函数。以及指定输入个数的函数
+ */
 
 /**
  * Functional interfaces of functions and actions of arity 0 to 9 and related

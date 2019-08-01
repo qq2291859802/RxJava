@@ -25,6 +25,8 @@ import io.reactivex.schedulers.Schedulers;
  * Libraries providing their own values should namespace them with their base package name followed
  * by a colon ({@code :}) and then a human-readable name (e.g., {@code com.example:ui-thread}).
  * @since 2.0
+ *
+ * 指示类或方法使用哪种调度器
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

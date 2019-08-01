@@ -25,19 +25,24 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Wrapper for a regular task that gets immediately rescheduled when the task completed.
+ * 常规任务的包装器，当任务完成时立即重新调度。
  */
 final class InstantPeriodicTask implements Callable<Void>, Disposable {
 
     final Runnable task;
 
-    final AtomicReference<Future<?>> rest;
+    final AtomicReference<Future<?>> rest; // 另一个任务
 
-    final AtomicReference<Future<?>> first;
+    final AtomicReference<Future<?>> first; // 第一个
 
     final ExecutorService executor;
 
     Thread runner;
 
+    // FutureTask可用于异步获取执行结果或取消执行任务的场景。通过传入Runnable或者Callable的任务给FutureTask，
+    // 直接调用其run方法或者放入线程池执行，之后可以在外部通过FutureTask的get方法异步获取执行结果，因此，
+    // FutureTask非常适合用于耗时的计算，主线程可以在完成自己的任务后，再去获取结果。另外，FutureTask还可以
+    // 确保即使调用了多次run方法，它都只会执行一次Runnable或者Callable任务，或者通过cancel取消FutureTask的执行等。
     static final FutureTask<Void> CANCELLED = new FutureTask<Void>(Functions.EMPTY_RUNNABLE, null);
 
     InstantPeriodicTask(Runnable task, ExecutorService executor) {
@@ -62,6 +67,9 @@ final class InstantPeriodicTask implements Callable<Void>, Disposable {
         return null;
     }
 
+    /**
+     * 丢弃所有任务
+     */
     @Override
     public void dispose() {
         Future<?> current = first.getAndSet(CANCELLED);
@@ -79,6 +87,10 @@ final class InstantPeriodicTask implements Callable<Void>, Disposable {
         return first.get() == CANCELLED;
     }
 
+    /**
+     * 设置第一个任务
+     * @param f
+     */
     void setFirst(Future<?> f) {
         for (;;) {
             Future<?> current = first.get();
@@ -92,10 +104,15 @@ final class InstantPeriodicTask implements Callable<Void>, Disposable {
         }
     }
 
+    /**
+     * 设置另一个任务
+     * @param f
+     */
     void setRest(Future<?> f) {
         for (;;) {
             Future<?> current = rest.get();
             if (current == CANCELLED) {
+                // 取消
                 f.cancel(runner != Thread.currentThread());
                 return;
             }

@@ -22,6 +22,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Base class for a fuseable intermediate observer.
+ * 观察者的基类
  * @param <T> the upstream value type
  * @param <R> the downstream value type
  */

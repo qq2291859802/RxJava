@@ -130,6 +130,7 @@ public final class EndConsumerHelper {
 
     /**
      * Builds the error message with the consumer class.
+     * 拼接错误信息
      * @param consumer the class of the consumer
      * @return the error message string
      */

@@ -24,6 +24,10 @@ final class ActionDisposable extends ReferenceDisposable<Action> {
         super(value);
     }
 
+    /**
+     * 具体的销毁操作
+     * @param value
+     */
     @Override
     protected void onDisposed(@NonNull Action value) {
         try {

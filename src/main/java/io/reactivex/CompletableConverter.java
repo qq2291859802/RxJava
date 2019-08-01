@@ -25,6 +25,7 @@ import io.reactivex.annotations.*;
 public interface CompletableConverter<R> {
     /**
      * Applies a function to the upstream Completable and returns a converted value of type {@code R}.
+     * Completable转化为其他对象
      *
      * @param upstream the upstream Completable instance
      * @return the converted value

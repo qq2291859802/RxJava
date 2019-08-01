@@ -27,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Returns an observable sequence that stays connected to the source as long as
  * there is at least one subscription to the observable sequence.
+ * 返回一个可观察序列，只要该可观察序列至少有一个订阅，该可观察序列就保持与源连接。
  *
  * @param <T>
  *            the value type
@@ -58,6 +59,10 @@ public final class ObservableRefCount<T> extends Observable<T> {
         this.scheduler = scheduler;
     }
 
+    /**
+     * 订阅
+     * @param observer the incoming Observer, never null
+     */
     @Override
     protected void subscribeActual(Observer<? super T> observer) {
 

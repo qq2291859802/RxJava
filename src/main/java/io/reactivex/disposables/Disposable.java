@@ -14,6 +14,7 @@ package io.reactivex.disposables;
 
 /**
  * Represents a disposable resource.
+ * 代表废弃对象
  */
 public interface Disposable {
     /**

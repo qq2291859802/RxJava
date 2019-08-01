@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
 
 /**
  * Marks methods whose return values should be checked.
+ * 标记应该检查返回值的方法
  * <p>History: 2.0.2 - experimental
  * @since 2.1
  */

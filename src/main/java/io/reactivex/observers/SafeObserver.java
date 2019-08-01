@@ -21,6 +21,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Wraps another Subscriber and ensures all onXXX methods conform the protocol
+ * 包装另一个订阅者并确保所有onXXX方法符合协议
  * (except the requirement for serialized access).
  *
  * @param <T> the value type

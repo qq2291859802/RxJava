@@ -22,6 +22,7 @@ import java.util.concurrent.*;
 
 /**
  * Static factory methods for returning standard Scheduler instances.
+ * 返回调度器工厂方法实例
  * <p>
  * The initial and runtime values of the various scheduler types can be overridden via the
  * {@code RxJavaPlugins.setInit(scheduler name)SchedulerHandler()} and
@@ -75,7 +76,7 @@ public final class Schedulers {
 
         COMPUTATION = RxJavaPlugins.initComputationScheduler(new ComputationTask());
 
-        IO = RxJavaPlugins.initIoScheduler(new IOTask());
+        IO = RxJavaPlugins.initIoScheduler(new IOTask()); // 相当于new IOTask().call()
 
         TRAMPOLINE = TrampolineScheduler.instance();
 
@@ -176,7 +177,7 @@ public final class Schedulers {
      */
     @NonNull
     public static Scheduler io() {
-        return RxJavaPlugins.onIoScheduler(IO);
+        return RxJavaPlugins.onIoScheduler(IO); // 相当于IO
     }
 
     /**

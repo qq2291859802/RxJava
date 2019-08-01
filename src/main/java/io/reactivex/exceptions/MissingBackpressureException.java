@@ -15,6 +15,7 @@ package io.reactivex.exceptions;
 
 /**
  * Indicates that an operator attempted to emit a value but the downstream wasn't ready for it.
+ * 背压无效异常
  */
 public final class MissingBackpressureException extends RuntimeException {
 

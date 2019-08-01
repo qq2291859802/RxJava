@@ -27,6 +27,7 @@ import io.reactivex.annotations.*;
 public interface SingleSource<T> {
 
     /**
+     * 订阅单观察者对象
      * Subscribes the given SingleObserver to this SingleSource instance.
      * @param observer the SingleObserver, not null
      * @throws NullPointerException if {@code observer} is null

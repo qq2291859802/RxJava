@@ -18,6 +18,7 @@ import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 
+// 判断是不是final类
 public class OperatorsAreFinal {
 
     File directoryOf(String baseClassName) throws Exception {

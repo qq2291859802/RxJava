@@ -1,18 +1,18 @@
 buildscript {
-  repositories { 
+    repositories {
     jcenter()
     mavenCentral()
     maven {
         url "https://plugins.gradle.org/m2/"
     }
-  }
-  dependencies {
-    classpath "ru.vyarus:gradle-animalsniffer-plugin:1.2.0"
-    classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
-    classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.5"
-    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
-    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.5.2"
-  }
+    }
+    dependencies {
+        classpath "ru.vyarus:gradle-animalsniffer-plugin:1.2.0"
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
+        classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.5"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.5.2"
+    }
 }
 
 group = "io.reactivex.rxjava2"
@@ -61,7 +61,7 @@ def jacocoVersion = "0.8.0"
 // --------------------------------------
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
@@ -94,8 +94,8 @@ javadoc {
     options.stylesheetFile = new File(projectDir, "gradle/stylesheet.css");
 
     options.links(
-        "https://docs.oracle.com/javase/7/docs/api/",
-        "http://www.reactive-streams.org/reactive-streams-${reactiveStreamsVersion}-javadoc/"
+            "https://docs.oracle.com/javase/7/docs/api/",
+            "http://www.reactive-streams.org/reactive-streams-${reactiveStreamsVersion}-javadoc/"
     )
 
     if (JavaVersion.current().isJava7()) {
@@ -180,7 +180,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            artifact (sourcesJar) { 
+            artifact(sourcesJar) {
                 classifier = "sources"
             }
         }
@@ -189,13 +189,13 @@ publishing {
 
 // Reactive-Streams as compile dependency
 publishing.publications.all {
-  pom.withXml {
-    asNode().dependencies."*".findAll() {
-      it.scope.text() == "runtime" && project.configurations.compile.allDependencies.find { dep ->
-        dep.name == it.artifactId.text()
-      }
-    }.each { it.scope*.value = "compile"}
-  }
+    pom.withXml {
+        asNode().dependencies."*".findAll() {
+            it.scope.text() == "runtime" && project.configurations.compile.allDependencies.find { dep ->
+                dep.name == it.artifactId.text()
+            }
+        }.each { it.scope*.value = "compile" }
+    }
 }
 
 jmh {
@@ -213,25 +213,25 @@ jmh {
 }
 
 plugins.withType(EclipsePlugin) {
-    project.eclipse.classpath.plusConfigurations += [ configurations.jmh ]
+    project.eclipse.classpath.plusConfigurations += [configurations.jmh]
 }
 
 test {
-    
-    testLogging  {
+
+    testLogging {
         // showing skipped occasionally should prevent CI timeout due to lack of standard output
-        events=["skipped", "failed"] // "started", "passed"
+        events = ["skipped", "failed"] // "started", "passed"
         // showStandardStreams = true
-        exceptionFormat="full"
+        exceptionFormat = "full"
 
         debug.events = ["skipped", "failed"]
-        debug.exceptionFormat="full"
+        debug.exceptionFormat = "full"
 
         info.events = ["failed", "skipped"]
-        info.exceptionFormat="full"
-        
+        info.exceptionFormat = "full"
+
         warn.events = ["failed", "skipped"]
-        warn.exceptionFormat="full"
+        warn.exceptionFormat = "full"
     }
 
     maxHeapSize = "1200m"
@@ -241,24 +241,24 @@ test {
     }
 }
 
-task testng(type: Test) { 
-     useTestNG()
-     testLogging  {
-        events=["skipped", "failed"]
-        exceptionFormat="full"
+task testng(type: Test) {
+    useTestNG()
+    testLogging {
+        events = ["skipped", "failed"]
+        exceptionFormat = "full"
 
         debug.events = ["skipped", "failed"]
-        debug.exceptionFormat="full"
+        debug.exceptionFormat = "full"
 
         info.events = ["failed", "skipped"]
-        info.exceptionFormat="full"
-        
-        warn.events = ["failed", "skipped"]
-        warn.exceptionFormat="full"
-     }
-} 
+        info.exceptionFormat = "full"
 
-check.dependsOn testng 
+        warn.events = ["failed", "skipped"]
+        warn.exceptionFormat = "full"
+    }
+}
+
+check.dependsOn testng
 
 jacoco {
     toolVersion = jacocoVersion // See http://www.eclemma.org/jacoco/.
@@ -289,7 +289,7 @@ jacocoTestReport {
         xml.enabled = true
         html.enabled = true
     }
-    
+
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it,
@@ -305,70 +305,70 @@ build.dependsOn jacocoTestReport
 checkstyle {
     configFile file("checkstyle.xml")
     ignoreFailures = true
-    toolVersion ="6.19" 
+    toolVersion = "6.19"
 }
 
 if (rootProject.hasProperty("releaseMode")) {
 
-  if ("branch".equals(rootProject.releaseMode)) {
-    // From https://github.com/ReactiveX/RxAndroid/blob/2.x/rxandroid/build.gradle#L94
-  
-    println("ReleaseMode: " + rootProject.releaseMode);
-    artifactory {
-        contextUrl = "https://oss.jfrog.org"
-    
-        publish {
-            repository {
-                repoKey = "oss-snapshot-local"
-    
-                username = rootProject.bintrayUser
-                password = rootProject.bintrayKey
-            }
-    
-            defaults {
-                publishConfigs("archives")
+    if ("branch".equals(rootProject.releaseMode)) {
+        // From https://github.com/ReactiveX/RxAndroid/blob/2.x/rxandroid/build.gradle#L94
+
+        println("ReleaseMode: " + rootProject.releaseMode);
+        artifactory {
+            contextUrl = "https://oss.jfrog.org"
+
+            publish {
+                repository {
+                    repoKey = "oss-snapshot-local"
+
+                    username = rootProject.bintrayUser
+                    password = rootProject.bintrayKey
+                }
+
+                defaults {
+                    publishConfigs("archives")
+                }
             }
         }
+
+        build.finalizedBy(artifactoryPublish)
     }
-    
-    build.finalizedBy(artifactoryPublish)
-  }
 
-   if ("full".equals(rootProject.releaseMode)) {
-      // based on https://github.com/bintray/gradle-bintray-plugin
-      def rver = version;
+    if ("full".equals(rootProject.releaseMode)) {
+        // based on https://github.com/bintray/gradle-bintray-plugin
+        def rver = version;
 
-      println("ReleaseMode: " + rootProject.releaseMode + " version " + rver);
+        println("ReleaseMode: " + rootProject.releaseMode + " version " + rver);
 
-      bintray {
-         user = rootProject.bintrayUser
-         key = rootProject.bintrayKey
-         configurations = ["archives"]
-         publish = true
-         pkg {
-           repo = "RxJava"
-           name = "RxJava"
-           userOrg = "reactivex"
-           labels = ["rxjava", "reactivex"]
-           licenses = ["Apache-2.0"]
-           vcsUrl = "https://github.com/ReactiveX/RxJava.git"
-           version {
-             name = rver
-             gpg {
-                sign = true
-             }
-             mavenCentralSync {
-               sync = true 
-               user = rootProject.sonatypeUsername
-               password = rootProject.sonatypePassword
-               close = "1"
-             }
-           }
-         }
-      }
-      
-      build.finalizedBy(bintrayUpload)
-   }
+        bintray {
+            user = rootProject.bintrayUser
+            key = rootProject.bintrayKey
+            configurations = ["archives"]
+            publish = true
+            pkg {
+                repo = "RxJava"
+                name = "RxJava"
+                userOrg = "reactivex"
+                labels = ["rxjava", "reactivex"]
+                licenses = ["Apache-2.0"]
+                vcsUrl = "https://github.com/ReactiveX/RxJava.git"
+                version {
+                    name = rver
+                    gpg {
+                        sign = true
+                    }
+                    mavenCentralSync {
+                        sync = true
+                        user = rootProject.sonatypeUsername
+                        password = rootProject.sonatypePassword
+                        close = "1"
+                    }
+                }
+            }
+        }
+
+        build.finalizedBy(bintrayUpload)
+    }
 }
 
 apply from: file("gradle/javadoc_cleanup.gradle")

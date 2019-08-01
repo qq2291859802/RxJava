@@ -64,6 +64,7 @@ public abstract class DisposableCompletableObserver implements CompletableObserv
 
     /**
      * Called once the single upstream Disposable is set via onSubscribe.
+     * 子类实现
      */
     protected void onStart() {
     }

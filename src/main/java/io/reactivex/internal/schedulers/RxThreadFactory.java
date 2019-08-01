@@ -17,6 +17,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
+ * 带有前缀的线程工厂
  * A ThreadFactory that counts how many threads have been created and given a prefix,
  * sets the created Thread's name to {@code prefix-count}.
  */
@@ -28,7 +29,7 @@ public final class RxThreadFactory extends AtomicLong implements ThreadFactory {
 
     final int priority;
 
-    final boolean nonBlocking;
+    final boolean nonBlocking; // 非阻塞
 
 //    static volatile boolean CREATE_TRACE;
 
@@ -71,8 +72,10 @@ public final class RxThreadFactory extends AtomicLong implements ThreadFactory {
 //        }
 
         String name = nameBuilder.toString();
+        // 是否是非阻塞线程
         Thread t = nonBlocking ? new RxCustomThread(r, name) : new Thread(r, name);
         t.setPriority(priority);
+        // 设置守护线程
         t.setDaemon(true);
         return t;
     }

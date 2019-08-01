@@ -17,6 +17,7 @@ import io.reactivex.annotations.*;
 
 /**
  * A minimalist queue interface without the method bloat of java.util.Collection and java.util.Queue.
+ * java.util.Collection 和 java.util.Queue的简化版
  *
  * @param <T> the value type to offer and poll, not null
  */

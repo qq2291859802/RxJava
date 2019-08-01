@@ -74,7 +74,7 @@ public enum SubscriptionHelper implements Subscription {
     /**
      * Validates that the n is positive.
      * @param n the request amount
-     * @return false if n is non-positive.
+     * @return false if n is non-positive. 正数返回true
      */
     public static boolean validate(long n) {
         if (n <= 0) {

@@ -22,6 +22,7 @@ import io.reactivex.annotations.*;
 public interface CompletableOnSubscribe {
 
     /**
+     * 订阅发射者
      * Called for each CompletableObserver that subscribes.
      * @param emitter the safe emitter instance, never null
      * @throws Exception on error

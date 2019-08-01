@@ -44,6 +44,9 @@ import io.reactivex.functions.Cancellable;
  * the release of resources happens after the terminal events have been delivered or the sequence gets
  * cancelled, exceptions throw within {@code Cancellable} are routed to the global error handler via
  * {@link io.reactivex.plugins.RxJavaPlugins#onError(Throwable)}.
+ *
+ *
+ * 发射器
  */
 public interface CompletableEmitter {
 

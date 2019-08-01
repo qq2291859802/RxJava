@@ -15,6 +15,7 @@ package io.reactivex.functions;
 
 /**
  * A functional interface (callback) that accepts a single value.
+ * 消费数据（只输出不输出）
  * @param <T> the value type
  */
 public interface Consumer<T> {

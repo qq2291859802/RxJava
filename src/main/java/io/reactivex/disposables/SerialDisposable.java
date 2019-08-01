@@ -22,6 +22,8 @@ import io.reactivex.internal.disposables.DisposableHelper;
  * A Disposable container that allows atomically updating/replacing the contained
  * Disposable with another Disposable, disposing the old one when updating plus
  * handling the disposition when the container itself is disposed.
+ *
+ * 封装原子性Disposable对象
  */
 public final class SerialDisposable implements Disposable {
     final AtomicReference<Disposable> resource;

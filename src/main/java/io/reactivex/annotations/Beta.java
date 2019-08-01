@@ -16,6 +16,8 @@ package io.reactivex.annotations;
 /**
  * Indicates the feature is in beta state: it will be most likely stay but
  * the signature may change between versions without warning.
+ *
+ * 表示该特性处于beta（测试）状态:它很可能会保留
  */
 public @interface Beta {
 

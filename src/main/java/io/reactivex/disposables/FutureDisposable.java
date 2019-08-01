@@ -32,13 +32,18 @@ final class FutureDisposable extends AtomicReference<Future<?>> implements Dispo
     @Override
     public boolean isDisposed() {
         Future<?> f = get();
+        // 判断任务是不是已经执行成功
         return f == null || f.isDone();
     }
 
+    /**
+     *
+     */
     @Override
     public void dispose() {
         Future<?> f = getAndSet(null);
         if (f != null) {
+            // cancel(false)只能停止没有执行的任务，canal(true)可以马上停止任务
             f.cancel(allowInterrupt);
         }
     }

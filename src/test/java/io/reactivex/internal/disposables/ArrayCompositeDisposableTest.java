@@ -83,6 +83,7 @@ public class ArrayCompositeDisposableTest {
         }
     }
 
+
     @Test
     public void replaceRace() {
         for (int i = 0; i < TestHelper.RACE_DEFAULT_LOOPS; i++) {

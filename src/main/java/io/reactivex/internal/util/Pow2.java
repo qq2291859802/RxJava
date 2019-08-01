@@ -30,10 +30,10 @@ public final class Pow2 {
      * @param value from which next positive power of two will be found.
      * @return the next positive power of 2 or this value if it is a power of 2.
      */
+    // numberOfLeadingZeros:返回无符号整型i的最高非零位前面的0的个数
     public static int roundToPowerOfTwo(final int value) {
         return 1 << (32 - Integer.numberOfLeadingZeros(value - 1));
     }
-
     /**
      * Is this value a power of two.
      *

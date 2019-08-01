@@ -16,6 +16,7 @@ import io.reactivex.annotations.NonNull;
 
 /**
  * A disposable container that manages a Runnable instance.
+ * 管理Runnable的对象
  */
 final class RunnableDisposable extends ReferenceDisposable<Runnable> {
 
@@ -25,6 +26,10 @@ final class RunnableDisposable extends ReferenceDisposable<Runnable> {
         super(value);
     }
 
+    /**
+     * 具体销毁操作
+     * @param value
+     */
     @Override
     protected void onDisposed(@NonNull Runnable value) {
         value.run();

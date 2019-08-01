@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Manages the creating of ScheduledExecutorServices and sets up purging.
+ * 管理ScheduledExecutorServices的创建并设置清除。
  */
 public final class SchedulerPoolFactory {
     /** Utility class. */
@@ -58,6 +59,10 @@ public final class SchedulerPoolFactory {
         tryStart(PURGE_ENABLED);
     }
 
+    /**
+     * 尝试启动
+     * @param purgeEnabled 只有清除标记为true时有效
+     */
     static void tryStart(boolean purgeEnabled) {
         if (purgeEnabled) {
             for (;;) {
@@ -65,6 +70,7 @@ public final class SchedulerPoolFactory {
                 if (curr != null) {
                     return;
                 }
+                // ScheduledExecutorService,是基于线程池设计的定时任务类,每个调度任务都会分配到线程池中的一个线程去执行,也就是说,任务是并发执行,互不影响。
                 ScheduledExecutorService next = Executors.newScheduledThreadPool(1, new RxThreadFactory("RxSchedulerPurge"));
                 if (PURGE_THREAD.compareAndSet(curr, next)) {
 
@@ -80,6 +86,7 @@ public final class SchedulerPoolFactory {
 
     /**
      * Stops the purge thread.
+     * 关闭线程
      */
     public static void shutdown() {
         ScheduledExecutorService exec = PURGE_THREAD.getAndSet(null);
@@ -97,25 +104,31 @@ public final class SchedulerPoolFactory {
 
         PURGE_ENABLED = pp.purgeEnable;
         PURGE_PERIOD_SECONDS = pp.purgePeriod;
-
+        // 启动
         start();
     }
 
+    /**
+     * 属性对象
+     */
     static final class PurgeProperties {
 
         boolean purgeEnable;
 
         int purgePeriod;
 
+        // 加载属性
         void load(Properties properties) {
             if (properties.containsKey(PURGE_ENABLED_KEY)) {
                 purgeEnable = Boolean.parseBoolean(properties.getProperty(PURGE_ENABLED_KEY));
             } else {
+                // 默认purgeEnable为true
                 purgeEnable = true;
             }
 
             if (purgeEnable && properties.containsKey(PURGE_PERIOD_SECONDS_KEY)) {
                 try {
+                    // 清除周期
                     purgePeriod = Integer.parseInt(properties.getProperty(PURGE_PERIOD_SECONDS_KEY));
                 } catch (NumberFormatException ex) {
                     purgePeriod = 1;
@@ -137,6 +150,11 @@ public final class SchedulerPoolFactory {
         return exec;
     }
 
+    /**
+     * 添加到map中
+     * @param purgeEnabled
+     * @param exec
+     */
     static void tryPutIntoPool(boolean purgeEnabled, ScheduledExecutorService exec) {
         if (purgeEnabled && exec instanceof ScheduledThreadPoolExecutor) {
             ScheduledThreadPoolExecutor e = (ScheduledThreadPoolExecutor) exec;
@@ -147,10 +165,12 @@ public final class SchedulerPoolFactory {
     static final class ScheduledTask implements Runnable {
         @Override
         public void run() {
+            // 循环执行定时任务
             for (ScheduledThreadPoolExecutor e : new ArrayList<ScheduledThreadPoolExecutor>(POOLS.keySet())) {
                 if (e.isShutdown()) {
                     POOLS.remove(e);
                 } else {
+                    //  尝试从工作队列移除所有已取消的 Future 任务。此方法可用作存储回收操作，它对功能没有任何影响。
                     e.purge();
                 }
             }

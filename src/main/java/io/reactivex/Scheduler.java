@@ -96,6 +96,7 @@ public abstract class Scheduler {
      */
     static final long CLOCK_DRIFT_TOLERANCE_NANOSECONDS;
     static {
+        // 默认15分钟
         CLOCK_DRIFT_TOLERANCE_NANOSECONDS = TimeUnit.MINUTES.toNanos(
                 Long.getLong("rx2.scheduler.drift-tolerance", 15));
     }
@@ -127,6 +128,7 @@ public abstract class Scheduler {
 
     /**
      * Returns the 'current time' of the Scheduler in the specified time unit.
+     * 当前时间
      * @param unit the time unit
      * @return the 'current time'
      * @since 2.0
@@ -174,6 +176,8 @@ public abstract class Scheduler {
      *
      * @return the Disposable instance that let's one cancel this particular task.
      * @since 2.0
+     *
+     * 无延时执行任务
      */
     @NonNull
     public Disposable scheduleDirect(@NonNull Runnable run) {
@@ -510,6 +514,9 @@ public abstract class Scheduler {
         }
     }
 
+    /**
+     * 定时任务
+     */
     static final class PeriodicDirectTask
     implements Disposable, Runnable, SchedulerRunnableIntrospection {
 
@@ -529,6 +536,7 @@ public abstract class Scheduler {
         @Override
         public void run() {
             if (!disposed) {
+                // 没有销毁
                 try {
                     run.run();
                 } catch (Throwable ex) {
@@ -556,6 +564,9 @@ public abstract class Scheduler {
         }
     }
 
+    /**
+     * 可销毁任务
+     */
     static final class DisposeTask implements Disposable, Runnable, SchedulerRunnableIntrospection {
 
         @NonNull
@@ -572,6 +583,9 @@ public abstract class Scheduler {
             this.w = w;
         }
 
+        /**
+         * 执行任务
+         */
         @Override
         public void run() {
             runner = Thread.currentThread();

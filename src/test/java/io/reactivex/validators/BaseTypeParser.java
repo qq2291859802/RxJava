@@ -25,6 +25,9 @@ public final class BaseTypeParser {
         throw new IllegalStateException("No instances!");
     }
 
+    /**
+     * RxJava特殊方法对象：包含背压信息，文档信息，行数等
+     */
     public static class RxMethod {
         public String signature;
 
@@ -47,6 +50,13 @@ public final class BaseTypeParser {
         public int schedulerDocLine;
     }
 
+    /**
+     * 解析rxjava对象（包含背压注解，调度信息）转换为RxMethod对象
+     * @param f Rxjava特殊类的文件对象
+     * @param baseClassName 源码文件类型
+     * @return
+     * @throws Exception
+     */
     public static List<RxMethod> parse(File f, String baseClassName) throws Exception {
         List<RxMethod> list = new ArrayList<RxMethod>();
 

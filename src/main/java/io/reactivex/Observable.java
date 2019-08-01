@@ -12080,7 +12080,7 @@ public abstract class Observable<T> implements ObservableSource<T> {
             observer = RxJavaPlugins.onSubscribe(this, observer);
 
             ObjectHelper.requireNonNull(observer, "Plugin returned null Observer");
-
+            // 这个才是真正实现订阅的方法。
             subscribeActual(observer);
         } catch (NullPointerException e) { // NOPMD
             throw e;

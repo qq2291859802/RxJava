@@ -39,6 +39,7 @@ public final class CompletableAmb extends Completable {
             try {
                 for (CompletableSource element : sourcesIterable) {
                     if (element == null) {
+                        // 发送异常
                         EmptyDisposable.error(new NullPointerException("One of the sources is null"), observer);
                         return;
                     }
@@ -71,6 +72,7 @@ public final class CompletableAmb extends Completable {
                 return;
             }
             if (c == null) {
+                // 发送空指针异常
                 NullPointerException npe = new NullPointerException("One of the sources is null");
                 if (once.compareAndSet(false, true)) {
                     set.dispose();
@@ -104,6 +106,7 @@ public final class CompletableAmb extends Completable {
         @Override
         public void onComplete() {
             if (once.compareAndSet(false, true)) {
+                // 销毁对象
                 set.dispose();
                 downstream.onComplete();
             }

@@ -50,6 +50,8 @@ import io.reactivex.disposables.Disposable;
  *          the type of item the SingleObserver expects to observe
  * @since 2.0
  */
+
+// 单个观察者对象
 public interface SingleObserver<T> {
 
     /**
@@ -60,6 +62,7 @@ public interface SingleObserver<T> {
      * be called anytime to cancel the connection
      * @since 2.0
      */
+    // 订阅一个可销毁的对象
     void onSubscribe(@NonNull Disposable d);
 
     /**
@@ -71,6 +74,8 @@ public interface SingleObserver<T> {
      * @param t
      *          the item emitted by the Single
      */
+
+    // 标记已经发送成功一个通知
     void onSuccess(@NonNull T t);
 
     /**
@@ -81,5 +86,7 @@ public interface SingleObserver<T> {
      * @param e
      *          the exception encountered by the Single
      */
+
+    // 标记发送一个通知失败
     void onError(@NonNull Throwable e);
 }
